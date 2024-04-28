@@ -47,10 +47,36 @@ async function run() {
         })
 
         app.get('/updateTourismSpot/:id', async (req, res) => {
-            console.log(req.params.id);
+            // console.log(req.params.id);
             const id = req.params.id
             const query = { _id: new ObjectId(id) };
             const result = await awesome_viewCollaction.findOne(query)
+            res.send(result)
+        })
+        //update
+        app.put('/updateTourismSpot/:id', async (req, res) => {
+            const data = req.body
+
+
+            const id = req.params.id
+            const filter = { _id: new ObjectId(id) };
+            const options = { upsert: true };
+            const updateDoc = {
+                $set: {
+                    tourismSpotName: data.tourismSpotName,
+                    tourismCountryName: data.tourismCountryName,
+                    totalVisitors: data.totalVisitors,
+                    location: data.location,
+                    shortDescription: data.shortDescription,
+                    averageCost: data.averageCost,
+                    seasonality: data.seasonality,
+                    travelTime: data.travelTime,
+                    userName: data.userName,
+                    userEmail: data.userEmail,
+                    photo: data.photo
+                },
+            };
+            const result = await awesome_viewCollaction.updateOne(filter, updateDoc, options);
             res.send(result)
         })
 
