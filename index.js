@@ -80,12 +80,30 @@ async function run() {
             res.send(result)
         })
 
+        //my list section
+        app.get('/myList/:email', async (req, res) => {
+            // const email = req.params.email
+            // const id = req.params.id
+            // const query = { currentUser: new ObjectId(email) };
+            const result = await awesome_viewCollaction.find({ currentUser: req.params.email }).toArray()
+            res.send(result)
+
+        })
+
 
         //sent database
         app.post('/addTourismSpot', async (req, res) => {
             const data = req.body
             // console.log(data);
             const result = await awesome_viewCollaction.insertOne(data);
+            res.send(result)
+        })
+
+        //delete
+        app.delete('/myList/:id', async (req, res) => {
+            const id = req.params.id
+            const query = { _id: new ObjectId(id) };
+            const result = await awesome_viewCollaction.deleteOne(query);
             res.send(result)
         })
 
