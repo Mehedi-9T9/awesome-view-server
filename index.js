@@ -80,6 +80,14 @@ async function run() {
             res.send(result)
         })
 
+        //details page
+        app.get('/tourismSpot/:id', async (req, res) => {
+            const id = req.params.id
+            const query = { _id: new ObjectId(id) };
+            const result = await awesome_viewCollaction.findOne(query)
+            res.send(result)
+        })
+
         //my list section
         app.get('/myList/:email', async (req, res) => {
             // const email = req.params.email
@@ -104,6 +112,21 @@ async function run() {
             const id = req.params.id
             const query = { _id: new ObjectId(id) };
             const result = await awesome_viewCollaction.deleteOne(query);
+            res.send(result)
+        })
+
+        // const database = client.db("awesome_viewDB");
+        const country = database.collection("countryDB");
+        app.post('/addTourismCountry', async (req, res) => {
+            const data = req.body
+            // console.log(data);
+            const result = await country.insertOne(data);
+            res.send(result)
+
+        })
+        app.get('/addTourismCountry', async (req, res) => {
+            const cursor = country.find()
+            const result = await cursor.toArray()
             res.send(result)
         })
 
